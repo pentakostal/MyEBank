@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class AccountFunctions extends Controller
 {
@@ -26,16 +26,15 @@ class AccountFunctions extends Controller
             'status' => 'in:debit,credit'
         ]);
 
-        //var_dump(Auth::id());
-
         $account = (new Account())->fill([
             'number' => 'LV' . rand(1000000000, 9999999999),
             'balance' => 0,
             'currency' => $validated['currency'],
             'status' => $validated['status'],
-            'user_id' => Auth::id(),
         ]);
-
+        $account->user()->associate(Auth::id());
         $account->save();
+
+        return redirect()->route('home');
     }
 }
