@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,6 +33,32 @@ class AccountFunctions extends Controller
         ]);
         $account->user()->associate(Auth::id());
         $account->save();
+
+        return redirect()->route('home');
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        $number = $request->validate([
+            'number' => 'required'
+        ]);
+
+        Account::where('number', $number)->delete();
+
+        return redirect()->route('home');
+    }
+
+    public function addMoney(Request $request)
+    {
+        $number = $request->validate([
+            'number' => 'required',
+            'balance' => 'required',
+            'newBalance' => 'required|numeric|gt:0'
+        ]);
+
+        $newBalance = $number['newBalance'] * 100 + $number['balance'];
+
+        Account::where('number', $number['number'])->update(['balance' => $newBalance]);
 
         return redirect()->route('home');
     }

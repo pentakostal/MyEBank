@@ -18,7 +18,9 @@
                 Accounts
             </header>
 
-            <a class="no-underline hover:underline" href="{{ route('addAccount') }}">Add Account</a>
+            <a href="/addAccount" >
+                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Account</button>
+            </a>
 
             <div class="w-full p-6">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -35,12 +37,26 @@
                     <tbody>
                         @foreach($accounts as $account)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $account->number }}</td>
-                                <td class="px-6 py-4">{{ $account->status }}</td>
-                                <td class="px-6 py-4">{{ $account->currency }}</td>
-                                <td class="px-6 py-4">{{ number_format($account->balance / 100, 2) }}{{ $account->currencySymbol }}</td>
-                                <td class="px-6 py-4">Add Money</td>
-                                <td class="px-6 py-4">Delete Account</td>
+                                <form method="POST">
+                                    @csrf
+                                    <input type="hidden" id="number" name="number" value="{{ $account->number }}">
+                                    <input type="hidden" id="balance" name="balance" value="{{ $account->balance }}">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $account->number }}</td>
+                                    <td class="px-6 py-4">{{ $account->status }}</td>
+                                    <td class="px-6 py-4">{{ $account->currency }}</td>
+                                    <td class="px-6 py-4">{{ number_format($account->balance / 100, 2) }}{{ $account->currencySymbol }}</td>
+                                    <td class="px-6 py-4">
+                                        <input id="newBalance" name="newBalance" type="text">
+                                        <button type="submit" formaction="/addMoney"class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            {{ __('Add Money') }}
+                                        </button>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button type="submit" formaction="/deleteAccount" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                            {{ __('Delete Account') }}
+                                        </button>
+                                    </td>
+                                </form>
                             </tr>
                         @endforeach
                     </tbody>
