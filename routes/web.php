@@ -20,7 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/addAccount', [\App\Http\Controllers\AccountFunctions::class, 'index'])->name('addAccount');
-Route::post('/addAccount', [\App\Http\Controllers\AccountFunctions::class, 'addAccount']);
+Route::get('/account', [\App\Http\Controllers\AccountFunctions::class, 'index'])->name('account');
+Route::get('/account/create', [\App\Http\Controllers\AccountFunctions::class, 'addAccount']);
 Route::post('/deleteAccount', [\App\Http\Controllers\AccountFunctions::class, 'deleteAccount']);
 Route::post('/addMoney', [\App\Http\Controllers\AccountFunctions::class, 'addMoney']);
+Route::post('/transactionAccount', [\App\Http\Controllers\AccountFunctions::class, 'transitBetween']);

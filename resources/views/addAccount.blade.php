@@ -15,7 +15,7 @@
                     Create New Account
                 </header>
 
-                <form method="POST">
+                <form method="GET" action="/account/create">
                     @csrf
                     <div>
                         <label for="currency">{{ __('Choose currency') }}:</label>

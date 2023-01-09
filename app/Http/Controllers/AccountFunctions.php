@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use SimpleXMLElement;
 
 class AccountFunctions extends Controller
 {
@@ -61,5 +63,36 @@ class AccountFunctions extends Controller
         Account::where('number', $number['number'])->update(['balance' => $newBalance]);
 
         return redirect()->route('home');
+    }
+
+    public function transitBetween(Request $request)
+    {
+        $transit = $request->validate([
+            'fromAccount' => 'required',
+            'toAccount' => 'required',
+            'transactionAmount' => 'required|numeric|gt:0',
+        ]);
+
+        $xml = new SimpleXMLElement('https://www.bank.lv/vk/ecb.xml?date=20050323', 0, TRUE);
+        echo '<pre>';
+        var_dump($xml->Currencies->Currency);die;
+
+        $accountFrom = DB::table('accounts')->where('number', $transit['fromAccount'])->get();
+        $accountTo = DB::table('accounts')->where('number', $transit['toAccount'])->get();
+
+        $amount = $transit['transactionAmount'] * 100;
+
+        $balanceFrom = $accountFrom[0]->balance;
+        $balanceTo = $accountTo[0]->balance;
+
+        if ($accountFrom[0]->currency == $accountTo[0]->currency) {
+            $newBalanceFrom = $balanceFrom - $amount;
+            $newBalanceTo = $balanceTo + $amount;
+
+            Account::where('number', $transit['fromAccount'])->update(['balance' => $newBalanceFrom]);
+            Account::where('number', $transit['toAccount'])->update(['balance' => $newBalanceTo]);
+
+            return redirect()->route('home');
+        }
     }
 }
