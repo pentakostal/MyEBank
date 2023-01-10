@@ -24,4 +24,4 @@ Route::get('/account', [\App\Http\Controllers\AccountFunctions::class, 'index'])
 Route::get('/account/create', [\App\Http\Controllers\AccountFunctions::class, 'addAccount']);
 Route::post('/deleteAccount', [\App\Http\Controllers\AccountFunctions::class, 'deleteAccount']);
 Route::post('/addMoney', [\App\Http\Controllers\AccountFunctions::class, 'addMoney']);
-Route::post('/transactionAccount', [\App\Http\Controllers\AccountFunctions::class, 'transitBetween']);
+Route::post('/transactionAccount', [\App\Http\Controllers\AccountFunctions::class, 'transitInternal']);

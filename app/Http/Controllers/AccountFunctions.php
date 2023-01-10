@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Services\CurrencyRatioService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -65,17 +66,13 @@ class AccountFunctions extends Controller
         return redirect()->route('home');
     }
 
-    public function transitBetween(Request $request)
+    public function transitInternal(Request $request)
     {
         $transit = $request->validate([
             'fromAccount' => 'required',
             'toAccount' => 'required',
             'transactionAmount' => 'required|numeric|gt:0',
         ]);
-
-        $xml = new SimpleXMLElement('https://www.bank.lv/vk/ecb.xml?date=20050323', 0, TRUE);
-        echo '<pre>';
-        var_dump($xml->Currencies->Currency);die;
 
         $accountFrom = DB::table('accounts')->where('number', $transit['fromAccount'])->get();
         $accountTo = DB::table('accounts')->where('number', $transit['toAccount'])->get();
@@ -88,6 +85,43 @@ class AccountFunctions extends Controller
         if ($accountFrom[0]->currency == $accountTo[0]->currency) {
             $newBalanceFrom = $balanceFrom - $amount;
             $newBalanceTo = $balanceTo + $amount;
+
+            Account::where('number', $transit['fromAccount'])->update(['balance' => $newBalanceFrom]);
+            Account::where('number', $transit['toAccount'])->update(['balance' => $newBalanceTo]);
+
+            return redirect()->route('home');
+        }
+
+        if ($accountFrom[0]->currency == "EUR" && $accountTo[0]->currency != "EUR") {
+            $ratio = (new CurrencyRatioService)->getRatio($accountTo[0]->currency) / 100;
+
+            $newBalanceFrom = $balanceFrom - $amount;
+            $newBalanceTo = $balanceTo + ($amount * $ratio);
+
+            Account::where('number', $transit['fromAccount'])->update(['balance' => $newBalanceFrom]);
+            Account::where('number', $transit['toAccount'])->update(['balance' => $newBalanceTo]);
+
+            return redirect()->route('home');
+        }
+
+        if ($accountFrom[0]->currency != "EUR" && $accountTo[0]->currency == "EUR") {
+            $ratio = (new CurrencyRatioService)->getRatio($accountFrom[0]->currency) / 100;
+
+            $newBalanceFrom = $balanceFrom - $amount;
+            $newBalanceTo = $balanceTo + ($amount / $ratio);
+
+            Account::where('number', $transit['fromAccount'])->update(['balance' => $newBalanceFrom]);
+            Account::where('number', $transit['toAccount'])->update(['balance' => $newBalanceTo]);
+
+            return redirect()->route('home');
+        }
+
+        if ($accountFrom[0]->currency != "EUR" && $accountTo[0]->currency != "EUR") {
+            $ratioFrom = (new CurrencyRatioService)->getRatio($accountFrom[0]->currency) / 100;
+            $ratioTo = (new CurrencyRatioService)->getRatio($accountFrom[0]->currency) / 100;
+
+            $newBalanceFrom = $balanceFrom - $amount;
+            $newBalanceTo = $balanceTo + (($amount / $ratioFrom) * $ratioTo);
 
             Account::where('number', $transit['fromAccount'])->update(['balance' => $newBalanceFrom]);
             Account::where('number', $transit['toAccount'])->update(['balance' => $newBalanceTo]);
