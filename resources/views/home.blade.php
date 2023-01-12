@@ -71,6 +71,12 @@
                 <header class="font-semibold bg-gray-200 text-gray-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md">
                     Transaction between your accounts
                 </header>
+                <p class="text-red-600">
+                    @if($errors->any())
+                        {{ implode('', $errors->all(':message')) }}
+                    @endif
+                </p>
+                        <br>
                 <form method="POST">
                     @csrf
                     <p>From Account:</p>
