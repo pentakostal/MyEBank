@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\TransactionHistory;
 use App\Rules\NumberIDisSame;
 use App\Services\TransitService;
 use Illuminate\Http\Request;
@@ -79,6 +80,15 @@ class AccountFunctions extends Controller
             $transit['toAccount'],
             $transit['transactionAmount']
         ))->makeTransit();
+
+        $history = (new TransactionHistory())->fill([
+            'comment' => 'internal transaction from' . $transit['fromAccount'],
+            'sign' => '-',
+            'amount' => $transit['transactionAmount'],
+            'currency' => "EUR",
+        ]);
+        $history->user()->associate(Auth::id());
+        $history->save();
 
         return redirect()->route('home');
     }

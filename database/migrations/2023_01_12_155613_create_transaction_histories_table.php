@@ -18,7 +18,7 @@ class CreateTransactionHistoriesTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->string('comment');
             $table->string('sign');
-            $table->integer('amount');
+            $table->float('amount');
             $table->string('currency');
             $table->timestamps();
         });

@@ -32,10 +32,6 @@ class NumberIDisSame implements Rule
         $accountFrom = DB::table('accounts')->where('number', $this->numberFrom)->get();
         $accountTo = DB::table('accounts')->where('number', $value)->get();
 
-        echo "<pre>";
-        var_dump($accountFrom[0]->user_id);
-        var_dump($accountTo[0]->user_id);
-
         return $accountFrom[0]->user_id == $accountTo[0]->user_id;
     }
 
