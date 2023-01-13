@@ -25,3 +25,4 @@ Route::get('/account/create', [\App\Http\Controllers\AccountFunctions::class, 'a
 Route::post('/deleteAccount', [\App\Http\Controllers\AccountFunctions::class, 'deleteAccount']);
 Route::post('/addMoney', [\App\Http\Controllers\AccountFunctions::class, 'addMoney']);
 Route::post('/transactionAccount', [\App\Http\Controllers\AccountFunctions::class, 'transitInternal']);
+Route::get('/payment', [\App\Http\Controllers\PaymentController::class, 'index'])->name('payment');

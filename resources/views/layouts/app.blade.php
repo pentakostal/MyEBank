@@ -34,6 +34,7 @@
                         <span>Welcome {{ Auth::user()->name }}</span>
 
                         <a class="no-underline hover:underline" href="{{ route('home') }}">Accounts</a>
+                        <a class="no-underline hover:underline" href="{{ route('payment') }}">Payment</a>
 
                         <a href="{{ route('logout') }}"
                            class="no-underline hover:underline"
