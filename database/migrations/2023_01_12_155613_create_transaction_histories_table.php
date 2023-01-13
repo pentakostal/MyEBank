@@ -16,6 +16,8 @@ class CreateTransactionHistoriesTable extends Migration
         Schema::create('transaction_histories', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
+            $table->string('numberFrom');
+            $table->string('numberTo');
             $table->string('comment');
             $table->string('sign');
             $table->float('amount');

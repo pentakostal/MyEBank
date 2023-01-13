@@ -11,6 +11,8 @@ class TransactionHistory extends Model
     use HasFactory;
 
     protected $fillable = [
+        'numberFrom',
+        'numberTo',
         'comment',
         'sign',
         'amount',

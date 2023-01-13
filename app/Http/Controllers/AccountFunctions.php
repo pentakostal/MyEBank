@@ -78,17 +78,9 @@ class AccountFunctions extends Controller
         (new TransitService(
             $transit['fromAccount'],
             $transit['toAccount'],
-            $transit['transactionAmount']
+            $transit['transactionAmount'],
+            'internal transaction'
         ))->makeTransit();
-
-        $history = (new TransactionHistory())->fill([
-            'comment' => 'internal transaction from' . $transit['fromAccount'],
-            'sign' => '-',
-            'amount' => $transit['transactionAmount'],
-            'currency' => "EUR",
-        ]);
-        $history->user()->associate(Auth::id());
-        $history->save();
 
         return redirect()->route('home');
     }
