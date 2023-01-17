@@ -13,8 +13,10 @@ class TransactionHistoryRepository
     private string $sign;
     private float $amount;
     private string $currency;
+    private int $userId;
 
     public function __construct(
+        int $userId,
         string $numberFrom,
         string $numberTo,
         string $comment,
@@ -26,13 +28,15 @@ class TransactionHistoryRepository
         $this->numberTo = $numberTo;
         $this->comment = $comment;
         $this->sign = $sign;
-        $this->amount = $amount;
+        $this->amount = $amount * 100;
         $this->currency = $currency;
+        $this->userId = $userId;
     }
 
     public function insert(): void
     {
         $history = (new TransactionHistory())->fill([
+            'user_id' => $this->userId,
             'numberFrom' => $this->numberFrom,
             'numberTo' => $this->numberTo,
             'comment' => $this->comment,
@@ -40,7 +44,7 @@ class TransactionHistoryRepository
             'amount' => $this->amount,
             'currency' => $this->currency,
         ]);
-        $history->user()->associate(Auth::id());
+
         $history->save();
     }
 }

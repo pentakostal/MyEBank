@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
-use App\Models\TransactionHistory;
+use App\Repository\TransactionHistoryRepository;
 use App\Rules\NumberIDisSame;
 use App\Services\TransitService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 
 class AccountFunctions extends Controller
 {
@@ -64,6 +63,16 @@ class AccountFunctions extends Controller
 
         Account::where('number', $number['number'])->update(['balance' => $newBalance]);
 
+        (new TransactionHistoryRepository(
+            Auth::id(),
+            '',
+            $number['number'],
+            'add money to account',
+            '+',
+            $number['newBalance'],
+            ''
+        ))->insert();
+
         return redirect()->route('home');
     }
 
@@ -79,9 +88,11 @@ class AccountFunctions extends Controller
             $transit['fromAccount'],
             $transit['toAccount'],
             $transit['transactionAmount'],
-            'internal transaction'
+            'internal transaction',
+            '',
+            Auth::id()
         ))->makeTransit();
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'Transaction successful');
     }
 }

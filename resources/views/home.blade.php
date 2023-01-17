@@ -76,6 +76,14 @@
                         {{ implode('', $errors->all(':message')) }}
                     @endif
                 </p>
+                @if (\Session::has('success'))
+                    <div class="alert alert-success">
+                        <ul>
+                            <li class="text-green-600">{!! \Session::get('success') !!}</li>
+                        </ul>
+                    </div>
+                @endif
+
                         <br>
                 <form method="POST">
                     @csrf

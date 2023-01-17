@@ -20,7 +20,14 @@
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         </thead>
-                        <tbody>
+                        @if (\Session::has('success'))
+                            <div class="alert alert-success">
+                                <ul>
+                                    <li class="text-green-600">{!! \Session::get('success') !!}</li>
+                                </ul>
+                            </div>
+                        @endif
+                        <br><tbody>
                             <form method="POST">
                                 @csrf
                                 <label for="accountFrom">{{ __('Choose your account') }}:</label>
@@ -36,8 +43,8 @@
                                 <br><label for="receiver">{{ __('Receiver') }}:</label>
                                 <input id="receiver" name="receiver" type="text"
                                        class="block p-1 pl-10 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <br><label for="numberTo">{{ __('Receiver number') }}:</label>
-                                <input id="numberTo" name="numberTo" type="text"
+                                <br><label for="accountTo">{{ __('Receiver number') }}:</label>
+                                <input id="accountTo" name="accountTo" type="text"
                                        class="block p-1 pl-10 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <br><label for="amount">{{ __('Amount') }}:</label>
                                 <input id="amount" name="amount" type="text"
@@ -45,7 +52,7 @@
                                 <br><label for="comment">{{ __('Comment') }}:</label>
                                 <input id="comment" name="comment" type="text"
                                        class="block p-1 pl-10 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <br><button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                <br><button type="submit" formaction="/makePayment" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                     {{ __('Make payment') }}
                                 </button>
                             </form>

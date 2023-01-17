@@ -20,7 +20,7 @@ class CreateTransactionHistoriesTable extends Migration
             $table->string('numberTo');
             $table->string('comment');
             $table->string('sign');
-            $table->float('amount');
+            $table->bigInteger('amount');
             $table->string('currency');
             $table->timestamps();
         });

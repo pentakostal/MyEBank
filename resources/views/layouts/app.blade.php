@@ -35,6 +35,7 @@
 
                         <a class="no-underline hover:underline" href="{{ route('home') }}">Accounts</a>
                         <a class="no-underline hover:underline" href="{{ route('payment') }}">Payment</a>
+                        <a class="no-underline hover:underline" href="{{ route('history') }}">Transaction history</a>
 
                         <a href="{{ route('logout') }}"
                            class="no-underline hover:underline"
@@ -52,3 +53,4 @@
     </div>
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/datepicker.min.js"></script>
