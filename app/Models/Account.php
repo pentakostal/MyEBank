@@ -13,7 +13,8 @@ class Account extends Model
     protected $fillable = [
         'number',
         'status',
-        'currency'
+        'currency',
+        'balance'
     ];
 
     public function user(): BelongsTo

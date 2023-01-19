@@ -18,7 +18,7 @@
                 <header class="font-semibold bg-gray-200 text-gray-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md">
                     Transaction history
                 </header>
-                <form method="POST">
+                <form method="GET">
                     @csrf
                     <div date-rangepicker datepicker-format="yyyy-mm-dd" class="flex items-center">
                         <div class="relative">

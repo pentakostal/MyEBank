@@ -33,6 +33,7 @@
                         <select name = "status" id="status">
                             <option value = "debit">Debit</option>
                             <option value = "credit">Credit</option>
+                            <option value = "crypto">Crypto</option>
                         </select>
                     <br>
                     <br>

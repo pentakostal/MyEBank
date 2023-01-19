@@ -36,6 +36,7 @@
                         <a class="no-underline hover:underline" href="{{ route('home') }}">Accounts</a>
                         <a class="no-underline hover:underline" href="{{ route('payment') }}">Payment</a>
                         <a class="no-underline hover:underline" href="{{ route('history') }}">Transaction history</a>
+                        <a class="no-underline hover:underline" href="{{ route('coinMarket') }}">Coin market</a>
 
                         <a href="{{ route('logout') }}"
                            class="no-underline hover:underline"

@@ -28,4 +28,5 @@ Route::post('/transactionAccount', [\App\Http\Controllers\AccountFunctions::clas
 Route::get('/payment', [\App\Http\Controllers\PaymentController::class, 'index'])->name('payment');
 Route::post('/makePayment', [\App\Http\Controllers\PaymentController::class, 'payment']);
 Route::get('/history', [\App\Http\Controllers\TransactionHistoryController::class, 'index'])->name('history');
-Route::post('/historySearch', [\App\Http\Controllers\TransactionHistoryController::class, 'search'])->name('historySearch');
+Route::get('/historySearch', [\App\Http\Controllers\TransactionHistoryController::class, 'search']);
+Route::get('/coinMarket', [\App\Http\Controllers\CoinMarketController::class, 'index'])->name('coinMarket');

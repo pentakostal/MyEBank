@@ -25,15 +25,33 @@ class AccountFunctions extends Controller
     {
         $validated = $request->validate([
             'currency' => 'in:EUR,USD,JPY,CNY,BRL',
-            'status' => 'in:debit,credit'
+            'status' => 'in:debit,credit,crypto'
         ]);
 
-        $account = (new Account())->fill([
-            'number' => 'LV' . rand(1000000000, 9999999999),
-            'balance' => 0,
-            'currency' => $validated['currency'],
-            'status' => $validated['status'],
-        ]);
+        $account = null;
+        if ($validated['status'] == 'credit') {
+            $account = (new Account())->fill([
+                'number' => 'LV' . rand(1000000000, 9999999999),
+                'balance' => 2500,
+                'currency' => $validated['currency'],
+                'status' => $validated['status'],
+            ]);
+        } elseif ($validated['status'] == 'crypto') {
+            $account = (new Account())->fill([
+                'number' => 'LV' . rand(1000000000, 9999999999),
+                'balance' => 0,
+                'currency' => 'EUR',
+                'status' => $validated['status'],
+            ]);
+        } else {
+            $account = (new Account())->fill([
+                'number' => 'LV' . rand(1000000000, 9999999999),
+                'balance' => 0,
+                'currency' => $validated['currency'],
+                'status' => $validated['status'],
+            ]);
+        }
+
         $account->user()->associate(Auth::id());
         $account->save();
 

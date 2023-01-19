@@ -34,9 +34,12 @@ class TransactionHistoryController extends Controller
             'end' => 'required'
         ]);
 
+        //echo "<pre>";
+        //var_dump($range["end"]);
         $history = TransactionHistory::where('user_id', Auth::id())
-            ->whereBetween('created_at', [$range["start"], $range["end"]])
-            ->get();
+                ->whereDate('created_at', '>=', $range["start"])
+                ->whereDate('created_at', '<=', $range["end"])
+                ->get();
 
         return view('history', [
             'history' => $history

@@ -46,9 +46,3 @@ class PaymentController extends Controller
         return redirect()->route('payment')->with('success', 'Payment successful');
     }
 }
- 
-
-            echo "Code for Life" . PHP_EOL;
-
-
-
