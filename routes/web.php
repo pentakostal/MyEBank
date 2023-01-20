@@ -30,3 +30,4 @@ Route::post('/makePayment', [\App\Http\Controllers\PaymentController::class, 'pa
 Route::get('/history', [\App\Http\Controllers\TransactionHistoryController::class, 'index'])->name('history');
 Route::get('/historySearch', [\App\Http\Controllers\TransactionHistoryController::class, 'search']);
 Route::get('/coinMarket', [\App\Http\Controllers\CoinMarketController::class, 'index'])->name('coinMarket');
+Route::post('/buyCoin', [\App\Http\Controllers\CoinMarketController::class, 'buyCrypto']);

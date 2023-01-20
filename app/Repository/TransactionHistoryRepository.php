@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Models\TransactionHistory;
-use Illuminate\Support\Facades\Auth;
 
 class TransactionHistoryRepository
 {

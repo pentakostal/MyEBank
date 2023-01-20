@@ -32,8 +32,8 @@ class AccountFunctions extends Controller
         if ($validated['status'] == 'credit') {
             $account = (new Account())->fill([
                 'number' => 'LV' . rand(1000000000, 9999999999),
-                'balance' => 2500,
-                'currency' => $validated['currency'],
+                'balance' => 250000,
+                'currency' => 'EUR',
                 'status' => $validated['status'],
             ]);
         } elseif ($validated['status'] == 'crypto') {
@@ -73,7 +73,7 @@ class AccountFunctions extends Controller
     {
         $number = $request->validate([
             'number' => 'required',
-            'balance' => 'required',
+            'amount' => 'required',
             'newBalance' => 'required|numeric|gt:0'
         ]);
 
