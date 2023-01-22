@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@extends('layouts.validation')
 
 @section('content')
 <main class="sm:container sm:mx-auto sm:mt-10">
@@ -84,7 +85,7 @@
                 @endif
 
                         <br>
-                <form method="POST">
+                <form method="POST" action="/transactionAccount">
                     @csrf
                     <p>From Account:</p>
                     <input id="fromAccount" name="fromAccount" type="text"
@@ -93,9 +94,14 @@
                     <input id="toAccount" name="toAccount" type="text"
                            class="block p-2 pl-1 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <p>Amount</p>
-                    <input id="transactionAmount" name="transactionAmount" type="text"
+                    <input id="transactionAmount" name="transactionAmount" type="number"
                            class="block p-2 pl-1 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <button type="submit" formaction="/transactionAccount" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    <p>Key code No. {{ $code }}</p>
+                    <input type="hidden" id="keyCodeNumber" name="keyCodeNumber" value="{{ $code }}">
+                    <input id="keyCode" name="keyCode" type="text"
+                           class="block p-2 pl-1 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                         {{ __('Transit') }}
                     </button>
                 </form>

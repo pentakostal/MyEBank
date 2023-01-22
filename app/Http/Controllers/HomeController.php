@@ -28,7 +28,8 @@ class HomeController extends Controller
         $accounts = Account::where('user_id', Auth::id())->get();
 
         return view('home', [
-            'accounts' => $accounts
+            'accounts' => $accounts,
+            'code' => rand(1, 10)
         ]);
     }
 }

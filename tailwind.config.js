@@ -13,5 +13,9 @@ module.exports = {
   variants: {},
   plugins: [
     require('@tailwindcss/ui'),
-  ]
+      require('flowbite/plugin'),
+  ],
+    content: [
+        "./node_modules/flowbite/**/*.js"
+    ]
 }

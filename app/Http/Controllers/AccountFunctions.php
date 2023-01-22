@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Repository\TransactionHistoryRepository;
+use App\Rules\KeyCodeCorrect;
 use App\Rules\NumberIDisSame;
 use App\Services\TransitService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AccountFunctions extends Controller
 {
@@ -99,7 +101,9 @@ class AccountFunctions extends Controller
         $transit = $request->validate([
             'fromAccount' => 'required',
             'toAccount' => ['required', 'different:fromAccount', new NumberIDisSame($request['fromAccount'])],
-            'transactionAmount' => 'required|numeric|gt:0'
+            'transactionAmount' => 'required|numeric|gt:0',
+            'keyCodeNumber' => 'required',
+            'keyCode' => ['required', new KeyCodeCorrect(Auth::id(), (int) $request['keyCodeNumber'])]
         ]);
 
         (new TransitService(

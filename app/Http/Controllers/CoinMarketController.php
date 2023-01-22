@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\UseerCoin;
 use App\Rules\CryptoSellAmountDoesnExceed;
 use App\Rules\IfCryptoSymbolInWallet;
+use App\Rules\KeyCodeCorrect;
 use App\Services\CoinDataService;
 use App\Services\CryptoBuyService;
 use App\Services\CryptoSellService;
@@ -36,7 +37,9 @@ class CoinMarketController extends Controller
         return view('coinMarket', [
             'cryptoCurrencies' => $data,
             'account' => $account,
-            'wallet' => $wallet
+            'wallet' => $wallet,
+            'codeBuy' => rand(1, 10),
+            'codeSell' => rand(1, 10)
         ]);
     }
 
@@ -45,11 +48,13 @@ class CoinMarketController extends Controller
         $coin = $request->validate([
             'symbol' => 'required',
             'amount' => 'required|numeric|gt:0',
+            'keyCodeNumber' => 'required',
+            'keyCode' => ['required', new KeyCodeCorrect(Auth::id(), (int) $request['keyCodeNumber'])]
         ]);
 
         $symbol = $coin['symbol'];
         $amount = (float) $coin['amount'];
-        $price = number_format((float) $coin['buyPrice'], 2, '.', '');
+        $price = (new CoinDataService())->getPrice($symbol);
 
         (new CryptoBuyService($symbol, $amount, $price))->buyCrypto();
 
@@ -61,6 +66,8 @@ class CoinMarketController extends Controller
         $coin = $request->validate([
             'symbol' => 'required',
             'amountSell' => ['required', 'numeric', 'gt:0', new CryptoSellAmountDoesnExceed($request['symbol'])],
+            'keyCodeNumber' => 'required',
+            'keyCode' => ['required', new KeyCodeCorrect(Auth::id(), (int) $request['keyCodeNumber'])]
         ]);
 
         $symbol = $coin['symbol'];

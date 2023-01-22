@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Rules\KeyCodeCorrect;
 use App\Rules\NumberIDnotSame;
 use App\Services\TransitService;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class PaymentController extends Controller
         $accounts = Account::where('user_id', Auth::id())->get();
 
         return view('payment', [
-            'accounts' => $accounts
+            'accounts' => $accounts,
+            'code' => rand(1, 10)
         ]);
     }
 
@@ -31,14 +33,16 @@ class PaymentController extends Controller
             'receiver' => 'required',
             'accountTo' => ['required', 'different:accountFrom', new NumberIDnotSame($request['accountFrom'])],
             'amount' => 'required',
-            'comment' => 'required'
+            'comment' => 'required',
+            'keyCodeNumber' => 'required',
+            'keyCode' => ['required', new KeyCodeCorrect(Auth::id(), (int) $request['keyCodeNumber'])]
         ]);
-
+        $amount = (float) $payment['amount'];
         (new TransitService(
             $payment['accountFrom'],
             $payment['accountTo'],
-            $payment['amount'],
-            $payment['receiver'] . ' / ' . $payment['comment'],
+            $amount,
+            $payment['comment'],
             "-",
             Auth::id()
         ))->makeTransit();

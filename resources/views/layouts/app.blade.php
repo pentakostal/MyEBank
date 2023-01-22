@@ -14,6 +14,10 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.2/flowbite.min.js"></script>
 </head>
 <body class="bg-gray-100 h-screen antialiased leading-none font-sans">
     <div id="app">
@@ -33,7 +37,7 @@
                     @else
                         <span>Welcome {{ Auth::user()->name }}</span>
 
-                        <a class="no-underline hover:underline" href="{{ route('home') }}">Accounts</a>
+                        <a class="no-underline hover:underline" href="{{ route('keyCard') }}">Key card</a>
                         <a class="no-underline hover:underline" href="{{ route('payment') }}">Payment</a>
                         <a class="no-underline hover:underline" href="{{ route('history') }}">Transaction history</a>
                         <a class="no-underline hover:underline" href="{{ route('coinMarket') }}">Coin market</a>

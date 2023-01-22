@@ -94,7 +94,7 @@ class TransitService
                 $this->numberFrom,
                 $this->comment,
                 '+',
-                $addAmount,
+                (float) $addAmount,
                 $accountTo[0]->currency
             ))->insert();
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Account;
+use App\Models\KeyCard;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -82,6 +83,26 @@ class RegisterController extends Controller
 
         $account->user()->associate($user);
         $account->save();
+
+        $keys = [];
+        for($i = 0; $i < 10; $i++) {
+            $keys[] = rand(11111, 99999);
+        }
+        $keyCard = (new KeyCard())->fill([
+            '1' => $keys[0],
+            '2' => $keys[1],
+            '3' => $keys[2],
+            '4' => $keys[3],
+            '5' => $keys[4],
+            '6' => $keys[5],
+            '7' => $keys[6],
+            '8' => $keys[7],
+            '9' => $keys[8],
+            '10' => $keys[9],
+        ]);
+
+        $keyCard->user()->associate($user);
+        $keyCard->save();
 
         return $user;
     }

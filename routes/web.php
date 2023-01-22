@@ -32,3 +32,4 @@ Route::get('/historySearch', [\App\Http\Controllers\TransactionHistoryController
 Route::get('/coinMarket', [\App\Http\Controllers\CoinMarketController::class, 'index'])->name('coinMarket');
 Route::post('/buyCoin', [\App\Http\Controllers\CoinMarketController::class, 'buyCrypto']);
 Route::post('/sellCoin', [\App\Http\Controllers\CoinMarketController::class, 'sellCrypto']);
+Route::get('/keyCard', [\App\Http\Controllers\KeyCardController::class, 'index'])->name('keyCard');
