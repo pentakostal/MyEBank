@@ -18,7 +18,6 @@ class CreateUseerCoinsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->string('symbol');
             $table->float('amount');
-            $table->float('buy_price');
             $table->timestamps();
         });
     }

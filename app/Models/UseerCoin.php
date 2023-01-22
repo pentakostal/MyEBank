@@ -13,7 +13,6 @@ class UseerCoin extends Model
     protected $fillable = [
         'symbol',
         'amount',
-        'buy_price'
     ];
 
     public function user(): BelongsTo

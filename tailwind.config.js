@@ -4,7 +4,11 @@ module.exports = {
     './resources/css/**/*.css',
   ],
   theme: {
-    extend: {}
+    extend: {
+        backgroundImage: {
+            'hero': "url('/public/pictures/yacht.jpeg')",
+        },
+    }
   },
   variants: {},
   plugins: [

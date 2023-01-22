@@ -13,7 +13,11 @@
 
 
         <section class="flex flex-col break-words bg-white sm:border-1 sm:rounded-md sm:shadow-sm sm:shadow-lg">
-
+            <p class="text-red-600">
+                @if($errors->any())
+                    {{ implode('', $errors->all(':message')) }}
+                @endif
+            </p>
             <header class="font-semibold bg-gray-200 text-gray-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md">
                 Accounts
             </header>
@@ -46,7 +50,7 @@
                                     <td class="px-6 py-4">{{ $account->currency }}</td>
                                     <td class="px-6 py-4">{{ number_format($account->balance / 100, 2) }}{{ $account->currencySymbol }}</td>
                                     <td class="px-6 py-4">
-                                        <input id="newBalance" name="newBalance" type="text"
+                                        <input id="newBalance" name="newBalance" type="number"
                                                class="block p-2 pl-1 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <br>
                                         <button type="submit" formaction="/addMoney"class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
@@ -71,11 +75,6 @@
                 <header class="font-semibold bg-gray-200 text-gray-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md">
                     Transaction between your accounts
                 </header>
-                <p class="text-red-600">
-                    @if($errors->any())
-                        {{ implode('', $errors->all(':message')) }}
-                    @endif
-                </p>
                 @if (\Session::has('success'))
                     <div class="alert alert-success">
                         <ul>

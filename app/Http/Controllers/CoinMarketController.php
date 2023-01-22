@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\UseerCoin;
+use App\Rules\IfCryptoSymbolInWallet;
 use App\Services\CoinDataService;
+use App\Services\CryptoBuyService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -48,27 +50,7 @@ class CoinMarketController extends Controller
         $amount = (float) $coin['amount'];
         $price = number_format((float) $coin['buyPrice'], 2, '.', '');
 
-        $account = DB::table('accounts')
-            ->where('user_id', Auth::id())
-            ->where('status', 'crypto')
-            ->get();
-
-        $newBalance = (int) (($account[0]->balance / 100) - ($amount * $price)) * 100;
-
-
-        DB::table('accounts')
-            ->where('user_id', Auth::id())
-            ->where('status', 'crypto')
-            ->update(['balance' => $newBalance]);
-
-        $userCoins = (new UseerCoin())->fill([
-            'symbol' => $symbol,
-            'amount' => $amount,
-            'buy_price' => $price
-        ]);
-
-        $userCoins->user()->associate(Auth::id());
-        $userCoins->save();
+        (new CryptoBuyService($symbol, $amount, $price))->buyCrypto();
 
         return redirect()->route('coinMarket')->with('success', 'You buy a Crypto coins');
     }

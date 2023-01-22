@@ -73,7 +73,7 @@ class AccountFunctions extends Controller
     {
         $number = $request->validate([
             'number' => 'required',
-            'amount' => 'required',
+            'balance' => 'required',
             'newBalance' => 'required|numeric|gt:0'
         ]);
 

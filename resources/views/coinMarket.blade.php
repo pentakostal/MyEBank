@@ -114,12 +114,10 @@
                                     <form method="POST">
                                         @csrf
                                         <input type="hidden" id="symbol" name="symbol" value="{{ $stock->symbol }}">
-                                        <input type="hidden" id="buyPrice" name="buyPrice" value="{{ $stock->buy_price }}">
 
                                         <td><img src="https://coinicons-api.vercel.app/api/icon/{{ strtolower($stock->symbol) }}" alt="{{ $stock->symbol }} icon" width="30" height="30"></td>
                                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $stock->symbol }}</td>
                                         <td class="px-6 py-4">{{ $stock->amount }}</td>
-                                        <td class="px-6 py-4">{{ $stock->buy_price }}</td>
                                         <td class="px-6 py-4">
                                             <input id="amountSell" name="amountSell" type="number" step=".01"
                                                    class="block p-1 pl-0.5 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-20">
