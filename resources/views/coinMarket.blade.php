@@ -12,7 +12,11 @@
             @endif
 
             <section class="flex flex-col break-words bg-white sm:border-1 sm:rounded-md sm:shadow-sm sm:shadow-lg">
-
+                <p class="text-red-600">
+                    @if($errors->any())
+                        {{ implode('', $errors->all(':message')) }}
+                    @endif
+                </p>
                 <header class="font-semibold bg-gray-200 text-gray-700 py-5 px-6 sm:py-6 sm:px-8 sm:rounded-t-md">
                     Coin Market
                 </header>

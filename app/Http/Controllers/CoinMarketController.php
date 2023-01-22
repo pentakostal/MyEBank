@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\UseerCoin;
+use App\Rules\CryptoSellAmountDoesnExceed;
 use App\Rules\IfCryptoSymbolInWallet;
 use App\Services\CoinDataService;
 use App\Services\CryptoBuyService;
+use App\Services\CryptoSellService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +45,6 @@ class CoinMarketController extends Controller
         $coin = $request->validate([
             'symbol' => 'required',
             'amount' => 'required|numeric|gt:0',
-            'buyPrice' => 'required|numeric|gt:0'
         ]);
 
         $symbol = $coin['symbol'];
@@ -53,5 +54,20 @@ class CoinMarketController extends Controller
         (new CryptoBuyService($symbol, $amount, $price))->buyCrypto();
 
         return redirect()->route('coinMarket')->with('success', 'You buy a Crypto coins');
+    }
+
+    public function sellCrypto(Request $request)
+    {
+        $coin = $request->validate([
+            'symbol' => 'required',
+            'amountSell' => ['required', 'numeric', 'gt:0', new CryptoSellAmountDoesnExceed($request['symbol'])],
+        ]);
+
+        $symbol = $coin['symbol'];
+        $amount = (float) $coin['amountSell'];
+
+        (new CryptoSellService($symbol, $amount))->sellCrypto();
+
+        return redirect()->route('coinMarket')->with('success', 'You sell a Crypto coins');
     }
 }

@@ -30,13 +30,10 @@ class CryptoBuyService
 
         $newBalance = (int) (($account[0]->balance / 100) - ($this->amount * $this->price)) * 100;
 
-
         DB::table('accounts')
             ->where('user_id', Auth::id())
             ->where('status', 'crypto')
             ->update(['balance' => $newBalance]);
-
-        echo "<pre>";
 
         if ((new IfCryptoSymbolInWallet(Auth::id(), $this->symbol))->exists()) {
             $oldAmount = DB::table('useer_coins')
