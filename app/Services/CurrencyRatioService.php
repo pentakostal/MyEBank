@@ -11,6 +11,8 @@ class CurrencyRatioService
         $todayDate=date("Ymd");
         $xml = new SimpleXMLElement('https://www.bank.lv/vk/ecb.xml?date=' . $todayDate, 0, TRUE);
 
+        //
+        //var_dump($xml);die;
         foreach ($xml->Currencies->Currency as $currencyRatio) {
             if ($currencyRatio->ID == $currency) {
                 echo '<pre>';

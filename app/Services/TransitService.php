@@ -44,6 +44,7 @@ class TransitService
         if ($accountFrom[0]->currency == $accountTo[0]->currency) {
             $newBalanceFrom = $accountFrom[0]->balance - $this->amount * 100;
             $newBalanceTo = $accountTo[0]->balance + $this->amount * 100;
+            $addAmount = $this->amount;
         } elseif ($accountFrom[0]->currency == "EUR" && $accountTo[0]->currency != "EUR") {
             $ratio = (new CurrencyRatioService)->getRatio($accountTo[0]->currency);
             $addAmount = ($this->amount * $ratio) * 100;
@@ -58,7 +59,7 @@ class TransitService
             $newBalanceTo = $accountTo[0]->balance + $addAmount;
         } elseif ($accountFrom[0]->currency != "EUR" && $accountTo[0]->currency != "EUR") {
             $ratioFrom = (new CurrencyRatioService)->getRatio($accountFrom[0]->currency);
-            $ratioTo = (new CurrencyRatioService)->getRatio($accountFrom[0]->currency);
+            $ratioTo = (new CurrencyRatioService)->getRatio($accountTo[0]->currency);
             $addAmount = (($this->amount / $ratioFrom) * $ratioTo) * 100;
 
             $newBalanceFrom = $accountFrom[0]->balance - $this->amount * 100;
@@ -94,7 +95,7 @@ class TransitService
                 $this->numberFrom,
                 $this->comment,
                 '+',
-                (float) $addAmount,
+                (float) $addAmount/100,
                 $accountTo[0]->currency
             ))->insert();
         }

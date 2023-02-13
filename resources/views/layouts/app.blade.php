@@ -37,6 +37,7 @@
                     @else
                         <span>Welcome {{ Auth::user()->name }}</span>
 
+                        <a class="no-underline hover:underline" href="{{ route('home') }}">Home</a>
                         <a class="no-underline hover:underline" href="{{ route('keyCard') }}">Key card</a>
                         <a class="no-underline hover:underline" href="{{ route('payment') }}">Payment</a>
                         <a class="no-underline hover:underline" href="{{ route('history') }}">Transaction history</a>
